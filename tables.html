@@ -1,18 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tables Page</title>
 
     <!-- Latest compiled and minified CSS & JS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://code.jquery.com/jquery.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </head>
+
 <body>
-    <h1>Tables Page</h1>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Hot Restaurant</h1>
+            <h3>Book your seat before they are all gone!</h3>
+            <hr>
+            <a href="/tables"><button class="btn btn-danger btn-lg"><span class="fa fa-eye"></span> View
+                    Tables</button></a>
+            <a href="/reserve"><button class="btn btn-danger btn-lg"><span class="fa fa-plus"> Make Reservations</span>
+                </button></a>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><strong>Reservations</strong></h3>
+                    <h5 id="reservations"></h5>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h3><strong>Waitlist </strong></h3>
+                <h5 id="waitlist"></h5>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+
+    <!-- simple links to JSON output -->
+    <a href="">Clear Table</a>
+    <hr>
+    <a href="/api/reserved">API Table List</a>
+    <hr>
+    <a href="/api/wait">API Wait List</a>
+
+    <script type="text/javascript">
+
+        // Question: What does this code do??
+        $.get("/api/reserved", function (data) {
+            let header = $("#reservations");
+            for (let i = 0; i < data.length; i++) {
+                const { element } = data[i];
+                const newList = $("<ul>");
+                let itemName = $("<li>").text(data[i].name);
+                let itemPhone = $("<li>").text(data[i].phone);
+                let itemEmail = $("<li>").text(data[i].email);
+                let itemId = $("<li>").text(data[i].id);
+
+                newList.append(itemName, itemPhone, itemEmail, itemId);
+                header.append(newList);
+            }
+        })
+
+        // Question: What does this code do??
+        $.get("/api/wait", function (data) {
+            let header = $("#waitlist");
+            for (let i = 0; i < data.length; i++) {
+                const { element } = data[i];
+                const newList = $("<ul>");
+                let itemName = $("<li>").text(data[i].name);
+                let itemPhone = $("<li>").text(data[i].phone);
+                let itemEmail = $("<li>").text(data[i].email);
+                let itemId = $("<li>").text(data[i].id);
+
+                newList.append(itemName, itemPhone, itemEmail, itemId);
+                header.append(newList);
+            }
+        });
+
+
+        // Question: What does this code do?
+        $("#add-btn").on("click", function (event) {
+            event.preventDefault();
+            var newReservation = {
+                name: $("#name").val().trim(),
+                phone: $("#phone").val().trim(),
+                email: $("#email").val().trim(),
+                id: $("#id").val().trim()
+            };
+        });
+    </script>
+
+    </div>
 </body>
+
 </html>

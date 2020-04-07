@@ -15,7 +15,7 @@ app.use(express.json());
 // restuarant variables
 const reservationArr = [
     {
-        name: "Name",
+        name: "Patron",
         phone: "123",
         email: "a@a.com",
         id: 123
@@ -38,7 +38,7 @@ app.get("/", function (req, res) {
 
 // enter a new reservation request
 app.get("/tables", function (req, res) {
-    res.sendFile(path.join(__dirname, "tables.html"));
+    res.sendFile(path.join(__dirname, "tables.html")); // insert table list items to insert in for placeholder?
 });
 
 // enter a new reservation request
@@ -51,13 +51,14 @@ app.post("/api/reserved", function(req, res){
     // This works because of our body parsing middleware
     var newReservation = req.body;
   
-    // // Using a RegEx Pattern to remove spaces from newCharacter
-    // // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    // newCharacter.routeName = newCharacter.name.replace(/\s+/g, "").toLowerCase();
-  
     console.log(newReservation);
+
+    if(reservationArr.length < 2){
+        reservationArr.push(newReservation);
+    } else {
+        waitListArr.push(newReservation);
+    }
   
-    reservationArr.push(newReservation);
   
     res.json(newReservation);
   });
