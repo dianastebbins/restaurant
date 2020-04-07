@@ -1,12 +1,12 @@
 // Dependencies
 // =============================================================
-var express = require("express");
-var path = require("path");
+const express = require("express");
+const path = require("path");
 
 // Sets up the Express App
 // =============================================================
-var app = express();
-var PORT = 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -46,6 +46,14 @@ app.get("/reserve", function (req, res) {
     res.sendFile(path.join(__dirname, "reserve.html"));
 });
 
+//app.get("/reserve").then()
+
+app.post("/clear", function(req, res){
+    reservationArr = [];
+    waitListArr = [];
+    res.sendFile(path.join(__dirname, "tables.html"));
+});
+
 app.post("/api/reserved", function(req, res){
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
@@ -58,10 +66,9 @@ app.post("/api/reserved", function(req, res){
     } else {
         waitListArr.push(newReservation);
     }
-  
-  
     res.json(newReservation);
   });
+
 
 // display views: waitlist
 app.get("/api/wait", function (req, res) {

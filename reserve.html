@@ -90,7 +90,8 @@
             $.post("/api/reserved", newReservation)
                 .then(function (data) {
                     console.log("reserve.html", data);
-                    alert("Adding reservation...");
+                    window.location.href="/tables"; // redirect back to tables page
+                    // alert("Adding reservation...");
                 });
         });
     </script>

@@ -34,7 +34,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3><strong>Reservations</strong></h3>
-                    <h5 id="reservations"></h5>
+                    <h5 id="reserved"></h5>
                 </div>
                 <div class="card-body">
                 </div>
@@ -49,7 +49,7 @@
         <div class="card">
             <div class="card-header">
                 <h3><strong>Waitlist </strong></h3>
-                <h5 id="waitlist"></h5>
+                <h5 id="wait"></h5>
             </div>
             <div class="card-body">
             </div>
@@ -70,7 +70,7 @@
 
         // Question: What does this code do??
         $.get("/api/reserved", function (data) {
-            let header = $("#reservations");
+            let header = $("#reserved");
             for (let i = 0; i < data.length; i++) {
                 const { element } = data[i];
                 const newList = $("<ul>");
@@ -86,7 +86,7 @@
 
         // Question: What does this code do??
         $.get("/api/wait", function (data) {
-            let header = $("#waitlist");
+            let header = $("#wait");
             for (let i = 0; i < data.length; i++) {
                 const { element } = data[i];
                 const newList = $("<ul>");
@@ -100,6 +100,23 @@
             }
         });
 
+        function displayData() {
+
+            $.get("/api/wait", function (data) {
+                let header = $("#waitlist");
+                for (let i = 0; i < data.length; i++) {
+                    const { element } = data[i];
+                    const newList = $("<ul>");
+                    let itemName = $("<li>").text(data[i].name);
+                    let itemPhone = $("<li>").text(data[i].phone);
+                    let itemEmail = $("<li>").text(data[i].email);
+                    let itemId = $("<li>").text(data[i].id);
+
+                    newList.append(itemName, itemPhone, itemEmail, itemId);
+                    header.append(newList);
+                }
+            });
+        }
 
         // Question: What does this code do?
         $("#add-btn").on("click", function (event) {
